@@ -1,4 +1,4 @@
-package model.comparator;
+package model.comparators;
 
 import model.Human;
 
