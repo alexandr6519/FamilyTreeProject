@@ -89,6 +89,7 @@ public class Console implements View {
                     }
                     familyTree.getInfoAboutFamilyTree();
                     printInvitationForUser();
+                    break;
                 case 5:
                     System.out.println("Для добавления в список введите последовательно через запятую(без пробелов): " +
                             "фамилия, имя, отчество, пол (м или ж), id отца, id матери, год рождения" +
@@ -106,6 +107,7 @@ public class Console implements View {
                     familyTree.getInfoAboutFamilyTree();
                     familyTree.printChildren();
                     printInvitationForUser();
+                    break;
                 default:
                     System.out.println("Вы ввели некорректный номер операции!");
                     printInvitationForUser();
@@ -113,18 +115,9 @@ public class Console implements View {
         }
     }
 
-    /*private void addRecord() {
-        System.out.println("Введите запись");
-        String record = scanner.nextLine();
-        //presenter.addH(record);
-    }
-
-    private void viewAll() {
-        presenter.getRecords();
-    }*/
-
+   
     private void exit() {
-        System.out.println("Работа завершена");
+        System.out.println("Работа завершена, всего доброго!");
         scanner.close();
         isWorking = false;
     }
