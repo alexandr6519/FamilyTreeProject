@@ -17,7 +17,7 @@ public class Console implements View {
     private FileHandler fileHandler;
 
     public Console(FileHandler fileHandler, FamilyTree familyTree) {
-        scanner = new Scanner(System.in);//, "cp866");
+        scanner = new Scanner(System.in);
         this.fileHandler = fileHandler;
         this.familyTree = familyTree;
     }
@@ -36,7 +36,6 @@ public class Console implements View {
 
     @Override
     public void print(FamilyTree familyTree) {
-        System.out.println("Список родственников древа состоит из:");
         familyTree.getInfoAboutFamilyTree();
     }
 
