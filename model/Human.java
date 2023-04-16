@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class Human implements Serializable, Comparable<Human> {
     private int id;
     private String fullName;
@@ -34,22 +31,6 @@ public class Human implements Serializable, Comparable<Human> {
         this.mother = null;
         this.birthYear = birthYear;
         this.children = new ArrayList<>();
-    }
-
-    public Human(String fullName, Gender gender, Human father, Human mother, int birthYear) {
-        this.fullName = fullName;
-        this.gender = gender;
-        this.father = father;
-        this.mother = mother;
-        this.birthYear = birthYear;
-        this.children = new ArrayList<>();
-    }
-
-    public Gender getGender(String g) {
-        if (g.equals("м")){
-            return Gender.male;
-        }
-        return Gender.female;
     }
 
     @Override
@@ -93,4 +74,3 @@ public class Human implements Serializable, Comparable<Human> {
         return fullName.compareTo(human.getFullName());
     }
 }
-
