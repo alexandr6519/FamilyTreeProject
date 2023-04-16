@@ -2,7 +2,7 @@ package model;
 
 import java.io.*;
 
-public class FileHandler implements WritebleAndReadable {
+public class FileHandler implements WritableAndReadable {
     private String fileName;
     private String fileType;
 
