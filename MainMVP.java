@@ -8,13 +8,13 @@ import view.View;
 import java.io.IOException;
 
 public class MainMVP {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         FileHandler fileHandler = new FileHandler("familyTree", "out");
-        FamilyTree familyTree = new FamilyTree();
-        View view = new Console(fileHandler, familyTree);
-        Service service = new Service();
+        FamilyTree<model.Human> familyTree = new FamilyTree<>();
+        Service service = new Service(familyTree, fileHandler);
+        View view = new Console();
         Presenter presenter = new Presenter(view, service);
-
+        presenter.createInitialTree();
         view.start();
     }
 }
