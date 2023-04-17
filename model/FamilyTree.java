@@ -1,3 +1,4 @@
+package model;
 
 import model.comparator.HumanComparatorByBirthday;
 import model.comparator.HumanComparatorById;
