@@ -1,8 +1,6 @@
-ppackage view;
+package view;
 
-import model.CreateAndAddNewHuman;
-import model.FindHuman;
-import model.Sorting;
+import model.Human;
 import presenter.Presenter;
 
 import java.io.IOException;
@@ -20,13 +18,13 @@ public class Console implements View {
     private void printInvitationForUser() {
         System.out.println();
         String str = "Выберите операцию и введите соответствующую цифру:\n" +
-                " 1 - для печати списка генеалогического древа \n" +
-                " 2 - для записи и сохранения списка родственников древа \n" +
+                " 1 - для печати полного списка генеалогического древа с указанием детей\n" +
+                " 2 - для записи и сохранения в файл списка родственников древа \n" +
                 " 3 - для чтения и получения списка родственников из файла \n" +
                 " 4 - для сортировки списка родственников по выбранному параметру \n" +
-                " 5 - для добавления родственника в список древа \n" +
-                " 6 - для поиска родственника по имени \n" +
-                " 0 - для выхода из меню \n";
+                " 5 - для ввода данных и добавления родственника в список древа \n" +
+                " 6 - для поиска в древе родственника по имени \n" +
+                " 0 - для завершения работы \n";
         System.out.println(str);
     }
 
@@ -55,18 +53,24 @@ public class Console implements View {
                     printInvitationForUser();
                     break;
                 case 4:
-                    Sorting sorting = new Sorting(presenter, scanner);
-                    sorting.sortByParameter();
-                    printInvitationForUser();
+                    System.out.println("Для сортировки по имени введите цифру 1:\n" +
+                            "для сортировки по году рождения введите цифру 2: \n" +
+                            "для сортировки по id введите цифру 3:");
+                    try {
+                        int sortNumber = scanner.nextInt();
+                        presenter.sortByParameter(sortNumber);
+                        printInvitationForUser();
+                    } catch (Exception e) {
+                        System.out.println("Ошибка ввода! " + e);
+                    }
                     break;
                 case 5:
-                    CreateAndAddNewHuman createAndAddNewHuman = new CreateAndAddNewHuman(presenter, scanner);
-                    createAndAddNewHuman.readAndAddHuman();
+                    Human human = presenter.readAndCreateHuman();
+                    presenter.addHuman(human);
                     printInvitationForUser();
                     break;
                 case 6:
-                    FindHuman findHuman =new FindHuman(presenter, scanner);
-                    findHuman.getHumanByName();
+                    presenter.getHumanByName();
                     printInvitationForUser();
                     break;
                 default:
@@ -87,5 +91,4 @@ public class Console implements View {
         this.presenter = presenter;
     }
 }
-
 
