@@ -5,17 +5,25 @@ import java.io.*;
 public class FileHandler implements WritableAndReadable {
     private String fileName;
     private String fileType;
+    private static FileHandler fileHandler;
 
-    public FileHandler(String fileName, String fileType){
+    public synchronized static FileHandler getFileHandler(String fileName, String fileType) {
+        if (fileHandler == null){
+            fileHandler = new FileHandler(fileName, fileType);
+        }
+        return fileHandler;
+    }
+
+    private FileHandler(String fileName, String fileType){
         this.fileName = fileName;
         this.fileType = fileType;
     }
 
-    public String getFileName() {
+    String getFileName() {
         return fileName;
     }
 
-    public String getFileType() {
+    String getFileType() {
         return fileType;
     }
 
