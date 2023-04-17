@@ -1,9 +1,5 @@
 package model;
 
-import model.comparator.HumanComparatorByBirthday;
-import model.comparator.HumanComparatorById;
-import model.comparator.HumanComparatorByName;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,10 +8,18 @@ import java.util.List;
 public class Service {
     private FamilyTree<Human> familyTree;
     private FileHandler fileHandler;
+    private CreateNewHuman createNewHuman;
+    private FindHuman findHuman;
 
     public Service(FamilyTree<Human> familyTree, FileHandler fileHandler) {
         this.familyTree = familyTree;
         this.fileHandler = fileHandler;
+        this.createNewHuman = new CreateNewHuman(familyTree);
+        this.findHuman = new FindHuman(familyTree);
+    }
+
+    private void setFamilyTree(FamilyTree<Human> familyTree) {
+        this.familyTree = familyTree;
     }
 
     public String getFileName() {
@@ -26,33 +30,28 @@ public class Service {
         return fileHandler.getFileType();
     }
 
-    public void addHuman(Human human) {
-        familyTree.getFamilyTree().add(human);
-        if (human.getMother() != null) {
-            human.getMother().addChild(human);
-        }
-        if (human.getFather() != null) {
-            human.getFather().addChild(human);
-        }
+    public Human readAndCreateHuman() {
+        return createNewHuman.readAndCreateHuman();
     }
 
-    public Human getHumanById(int id) {
-        for (Human human : familyTree.getFamilyTree()) {
-            if (human.getId() == id) {
-                return human;
-            }
-        }
-        return null;
+    public void getHumanByName(){
+        findHuman.getHumanByName();
     }
 
-    public Human getHumanByName(String name) {
-        String nameFull = name.replace(",", " ");
-        for (Human human : familyTree.getFamilyTree()) {
-            if (human.getFullName().equals(nameFull)) {
-                return human;
-            }
-        }
-        return null;
+   public void addHuman(Human human) {
+        familyTree.addHuman(human);
+    }
+
+    public void writeTreeInFile() throws IOException {
+        fileHandler.writeTreeInFile(familyTree);
+    }
+
+    public void readFromFile() throws IOException, ClassNotFoundException {
+        setFamilyTree(fileHandler.readFromFile());
+    }
+
+    public void sortByParameter(int sortNumber){
+        familyTree.sortByParameter(sortNumber);
     }
 
     public void printChildren() {
@@ -60,10 +59,10 @@ public class Service {
         int index = 1;
         for (Human humanTemp : familyTree.getFamilyTree()) {
             if (humanTemp.getChildren().isEmpty()) {
-                System.out.printf("%d)%s (%d) не имеет детей!\n ", index++, humanTemp.getFullName(), humanTemp.getBirthYear());
+                System.out.printf("%d)id : %d;  %s (%d) не имеет детей!\n ", index++, humanTemp.getId(), humanTemp.getFullName(), humanTemp.getBirthYear());
                 System.out.println();
             } else {
-                System.out.printf("%d)%s (%d) имеет следующих детей:\n %s\n", index++, humanTemp.getFullName(), humanTemp.getBirthYear(), humanTemp.getChildren());
+                System.out.printf("%d)id : %d;  %s (%d) имеет следующих детей:\n   %s\n", index++, humanTemp.getId(),humanTemp.getFullName(), humanTemp.getBirthYear(), humanTemp.getChildren());
                 System.out.println();
             }
         }
@@ -71,25 +70,10 @@ public class Service {
 
     public void print() {
         System.out.println("Список родственников древа состоит из:");
+
         while (familyTree.hasNext()) {
-            System.out.println(familyTree.next());
+            System.out.println(familyTree.next().toString());
         }
-    }
-
-    public int getLastId() {
-        if (familyTree.getFamilyTree() == null){
-            return -1;
-        }
-        return familyTree.getFamilyTree().size() - 1;
-    }
-
-    public Gender getGender(String g) {
-        if (g.equals("м")) {
-            return Gender.male;
-        } else if (g.equals("ж")){
-            return Gender.female;
-        }
-        return null;
     }
 
     public void createInitialTree() {
@@ -113,25 +97,5 @@ public class Service {
                 human.getFather().addChild(human);
             }
         }
-    }
-
-    public void writeTreeInFile() throws IOException {
-        fileHandler.writeTreeInFile(familyTree);
-    }
-
-    public void readFromFile() throws IOException, ClassNotFoundException {
-        this.familyTree = fileHandler.readFromFile();
-    }
-
-    public void sortByName() {
-        familyTree.getFamilyTree().sort(new HumanComparatorByName());
-    }
-
-    public void sortByBirthYear() {
-        familyTree.getFamilyTree().sort(new HumanComparatorByBirthday());
-    }
-
-    public void sortById() {
-        familyTree.getFamilyTree().sort(new HumanComparatorById());
     }
 }
