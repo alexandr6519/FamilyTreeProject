@@ -1,23 +1,21 @@
 package model;
 
-import presenter.Presenter;
-
 import java.util.Scanner;
 
 public class FindHuman {
-    private Presenter presenter;
+    private FamilyTree familyTree;
     private Scanner scanner;
 
-    public FindHuman(Presenter presenter, Scanner scanner) {
-        this.presenter = presenter;
-        this.scanner = scanner;
+    public FindHuman(FamilyTree familyTree) {
+        this.familyTree = familyTree;
+        this.scanner = new Scanner(System.in);
     }
 
-    public void getHumanByName() {
+    void getHumanByName() {
         System.out.println("Введите фамилию,имя,отчество через запятую:");
         try {
             String name = scanner.next();
-            Human human = presenter.getHumanByName(name);
+            Human human = familyTree.getHumanByName(name);
             if (human == null) {
                 System.out.println("По введенному имени в древе родственников не нашлось!");
             } else {
@@ -25,6 +23,7 @@ public class FindHuman {
                 String textAboutChildren = "детей нет";
                 if (countChildren > 0) {
                     StringBuilder stb = new StringBuilder("дети: \n");
+                    stb.append(" ");
                     for (int i = 0; i < countChildren; i++) {
                         stb.append(human.getChildren().get(i).toString());
                     }
